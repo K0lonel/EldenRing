@@ -1,0 +1,49 @@
+{
+    "bars": [
+        {
+            "name": "hp",
+            "value": "0xFF3333",
+            "on": true
+        },
+        {
+            "name": "poise",
+            "value": "0xB2B2B2",
+            "on": true
+        },
+        {
+            "name": "poison",
+            "value": "0x008020",
+            "on": false
+        },
+        {
+            "name": "rot",
+            "value": "0xBF8000",
+            "on": false
+        },
+        {
+            "name": "bleed",
+            "value": "0xBF0000",
+            "on": true
+        },
+        {
+            "name": "blight",
+            "value": "0x454545",
+            "on": false
+        },
+        {
+            "name": "frost",
+            "value": "0x3399E5",
+            "on": false
+        },
+        {
+            "name": "sleep",
+            "value": "0x806699",
+            "on": false
+        },
+        {
+            "name": "mad",
+            "value": "0xCCCC00",
+            "on": false
+        }
+    ]
+}
