@@ -71,6 +71,7 @@ loop
 {
     deathCount := ring_mem.ReadInt(GameDataMan+0x94)
     level := ring_mem.ReadInt(GameDataMan, [0x8, 0x68]*)
+    runes := ring_mem.ReadInt(GameDataMan, [0x8, 0x6C]*)
     isScene := ring_mem.ReadUChar(EventFlagMan, [0x28, 0x113]*)
     target := ring_mem.ReadPtr(LastLockOnTarget.address)
 
@@ -94,7 +95,7 @@ loop
             ring_draw.EndDraw()
             continue
         }
-        ring_draw.DrawText("NL Runes: " lvlToRunes(level), -5, 50, 18, 0xAAD2A622,,"aRight dsFF000000")
+        ring_draw.DrawText("NL Runes: " lvlToRunes(level) - runes, -5, 50, 18, 0xAAD2A622,,"aRight dsFF000000")
         ring_draw.DrawText("Death Count: " deathCount, -5, 68, 18, 0xAAD2A622,,"aRight dsFF000000")
 
         if(!target || resists["current"]["hp"] <= 0 || resists["max"]["poise_max"] <= 0) {
@@ -124,8 +125,11 @@ Bar(name, color, withName := True, withNumbers := True, headLess := False) {
     h := (rect.h-(count-1)*pad)/count
     bW := ring_draw.width/2 + w/2 + pad*2
     bH := rect.y+h*(index-1)+pad*(index-1)
-    
-    ratio := resists["current"][name] / resists["max"][name "_max"]
+
+    if(current := resists["current"][name] < 0)
+        current := 0
+
+    ratio := current / resists["max"][name "_max"] < 0
     barW := ratio * rect.w
 
     if(!headLess) {
@@ -134,10 +138,10 @@ Bar(name, color, withName := True, withNumbers := True, headLess := False) {
         if(withName)
             ring_draw.DrawText(name, -bW, bH, h, color,,"aRight dsFF000000")
         if(withNumbers)
-            ring_draw.DrawText(resists["current"][name] "/" resists["max"][name "_max"], bW, bH, h, color,,"aLeft dsFF000000")
+            ring_draw.DrawText(current  " / " resists["max"][name "_max"], bW, bH, h, color,,"aLeft dsFF000000")
     }
     else
-        ring_draw.DrawText(resists["current"][name] "/" resists["max"][name "_max"], 0, bH, h, color,,"aCenter dsFF000000")
+        ring_draw.DrawText(current " / " resists["max"][name "_max"], 0, bH, h, color,,"aCenter dsFF000000")
 }
 
 lvlToRunes(lvl) {
